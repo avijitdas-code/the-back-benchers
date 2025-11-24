@@ -1,15 +1,31 @@
 // components/HomePage.jsx
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+
+// components/HomePage.jsx - Hero Section modification
+
+// ... (rest of your imports)
 
 export default function HomePage() {
   return (
-    <div className="min-h-[calc(100vh-64px)] bg-gray-900 text-white"> {/* Adjusted min-height for Navbar */}
+    <div className="min-h-[calc(100vh-64px)] bg-gray-900 text-white">
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center text-center bg-cover bg-center"
-               style={{ backgroundImage: 'url("/images/hero-bg.jpg")' }}> {/* Placeholder for a background image */}
-        <div className="absolute inset-0 bg-black opacity-60"></div> {/* Overlay for better text readability */}
-        <div className="z-10 p-8 max-w-4xl mx-auto">
+      <section className="relative h-screen flex items-center justify-center text-center">
+        {/* Background Image using Next.js Image component */}
+        <Image
+          src="/images/hero-bg.jpg"
+          alt="Tech background"
+          layout="fill" // This makes the image fill its parent
+          objectFit="cover" // This ensures the image covers the area without distorting
+          quality={90} // Adjust quality for better performance
+          priority // Load this image with high priority
+          className="absolute z-0" // Ensure it's behind the content
+        />
+        <div className="absolute inset-0 bg-black opacity-60 z-10"></div> {/* Overlay for better text readability */}
+
+        {/* Content layered on top */}
+        <div className="z-20 p-8 max-w-4xl mx-auto"> {/* Changed z-index to bring text forward */}
           <h1 className="text-5xl md:text-6xl font-extrabold text-yellow-300 leading-tight mb-4 animate-fadeIn">
             Your Ultimate Study Companion
           </h1>
@@ -27,41 +43,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Feature Sections (to be added later) */}
-      <section className="py-16 px-8 container mx-auto">
-        <h2 className="text-4xl font-bold text-center text-yellow-300 mb-12">What We Offer</h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* Placeholder for feature cards */}
-          <div className="bg-gray-800 p-6 rounded-lg shadow-lg text-center">
-            <h3 className="text-2xl font-semibold text-white mb-3">Comprehensive Notes</h3>
-            <p className="text-gray-300">Detailed notes for all subjects, curated by top students.</p>
-          </div>
-          <div className="bg-gray-800 p-6 rounded-lg shadow-lg text-center">
-            <h3 className="text-2xl font-semibold text-white mb-3">Previous Year Questions</h3>
-            <p className="text-gray-300">Practice with PYQs to ace your exams.</p>
-          </div>
-          <div className="bg-gray-800 p-6 rounded-lg shadow-lg text-center">
-            <h3 className="text-2xl font-semibold text-white mb-3">Lab Manuals & Resources</h3>
-            <p className="text-gray-300">Essential resources for practicals and projects.</p>
-          </div>
-        </div>
-      </section>
+      {/* ... Rest of your HomePage.jsx content (Feature Sections, About, Footer) ... */}
 
-      {/* About Section (to be added later) */}
-      <section className="py-16 px-8 bg-gray-800 text-center">
-        <div className="container mx-auto max-w-3xl">
-          <h2 className="text-4xl font-bold text-yellow-300 mb-6">About The Back Benchers</h2>
-          <p className="text-lg text-gray-300 leading-relaxed">
-            We are a community-driven platform dedicated to empowering MAKAUT students with easy access to study materials.
-            Our goal is to make learning efficient and effective, helping you excel in your academic journey.
-          </p>
-        </div>
-      </section>
-
-      {/* Call to Action / Footer (to be added later) */}
-      <section className="py-12 text-center bg-gray-900">
-        <p className="text-gray-400">&copy; {new Date().getFullYear()} The Back Benchers. All rights reserved.</p>
-      </section>
     </div>
   );
 }
