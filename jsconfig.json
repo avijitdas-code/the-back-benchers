@@ -1,7 +1,12 @@
 {
   "compilerOptions": {
+    "baseUrl": ".", // This makes paths relative to the project root
     "paths": {
-      "@/*": ["./*"]
+      "@/lib/*": ["lib/*"],   // Alias for lib folder
+      "@/models/*": ["models/*"] // Alias for models folder
+      // You can add more aliases if needed, e.g., "@components/*": ["components/*"]
     }
-  }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
+  "exclude": ["node_modules"]
 }
