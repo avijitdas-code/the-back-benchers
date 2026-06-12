@@ -1,8 +1,5 @@
-// app/page.js
-import HomePage from '../components/HomePage'; // Import the new HomePage component
+import HomePage from '../components/HomePage';
 
-export default function Home() {
-  return (
-    <HomePage /> // Render your HomePage component here
-  );
+export default function RootPage() {
+  return <HomePage />;
 }

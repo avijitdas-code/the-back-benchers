@@ -1,137 +1,215 @@
-// components/HomePage.jsx
-import React from 'react';
+'use client';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
-import { FaBookOpen, FaClipboardList, FaBook } from 'react-icons/fa'; // Icons for features
+import { 
+  FaLinkedin, 
+  FaBell, 
+  FaRocket, 
+  FaInfoCircle, 
+  FaEnvelope, 
+  FaUserTie 
+} from 'react-icons/fa'; 
 
 export default function HomePage() {
+  const userName = "AJ";
+
   return (
-    <div className="min-h-[calc(100vh-64px)] bg-gray-900 text-white">
-      {/* Hero Section - The main introductory part of the page */}
-      <section className="relative h-screen flex items-center justify-center text-center">
-        {/* Background Image: Stretches to fill the section, with a dark overlay */}
-        <Image
-          src="/images/BG_NEW_PHOTO.jpg" // Path to your background image in the public/images folder
-          alt="Tech background" // Accessible description for the image
-          layout="fill" // Makes the image fill the parent element
-          objectFit="cover" // Ensures the image covers the area without distortion
-          quality={90} // Adjusts image quality for performance vs. aesthetics
-          priority // Tells Next.js to load this image with high priority (important for LCP)
-          className="absolute z-0" // Positions the image behind the content
-        />
-        <div className="absolute inset-0 bg-black opacity-60 z-10"></div> {/* Dark overlay for text readability */}
+    <div className="min-h-screen text-white bg-transparent flex flex-col items-center font-sans scroll-smooth">
+      
+      {/* SECTION 1: HERO */}
+      <section id="home" className="h-screen w-full max-w-5xl px-6 flex flex-col items-center justify-center pt-20">
+        <p className="text-[10px] md:text-sm font-medium text-gray-400 mb-1 tracking-[0.3em] uppercase text-center w-full">
+          NICE TO MEET YOU, <span className="text-yellow-500">{userName}</span>
+        </p>
 
-        {/* Content of the Hero Section: Text, selectors, and buttons */}
-        <div className="z-20 p-8 max-w-4xl mx-auto flex flex-col items-center">
-          {/* Main Title */}
-          <h1 className="text-5xl md:text-6xl font-extrabold text-yellow-300 leading-tight mb-4 animate-fadeIn">
-            Your Ultimate Study Companion
-          </h1>
-          {/* Sub-title / Description */}
-          <p className="text-xl md:text-2xl text-gray-200 mb-8 animate-fadeIn delay-200">
-            Access Notes, PYQs, and Organizers for MAKAUT Students. Study Smart, Not Hard!
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter text-white mb-4 whitespace-nowrap text-center w-full">
+          THE BACK <span className="text-yellow-500">BENCHERS</span>
+        </h1>
+
+        <div className="max-w-3xl mb-8 text-center">
+          <p className="text-sm md:text-lg text-gray-300 italic mb-4 font-light leading-tight">
+            "Your seat in the back doesn't define your future, but your hustle does."
           </p>
-
-          {/* Integrated Access Study Materials Selectors - This is the key interactive part */}
-          <div className="flex flex-col md:flex-row justify-center items-center gap-4 mb-8 animate-fadeIn delay-600 w-full max-w-2xl">
-            {/* Stream Selector */}
-            <select className="bg-gray-700 text-white p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 text-base w-full md:w-auto">
-              <option value="">Select Stream</option>
-              <option value="cse_it">B.Tech - CSE/IT</option>
-              <option value="ce">B.Tech - CE</option>
-              <option value="ece">B.Tech - ECE</option>
-              <option value="ee">B.Tech - EE</option>
-              <option value="me">B.Tech - ME</option>
-              <option value="aiml">B.Tech - AIML</option>
-              <option value="other_dept">Other Departments</option>
-            </select>
-
-            {/* Semester Selector */}
-            <select className="bg-gray-700 text-white p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 text-base w-full md:w-auto">
-              <option value="">Select Semester</option>
-              <option value="sem1">Semester 1</option>
-              <option value="sem2">Semester 2</option>
-              <option value="sem3">Semester 3</option>
-              <option value="sem4">Semester 4</option>
-              <option value="sem5">Semester 5</option>
-              <option value="sem6">Semester 6</option>
-              <option value="sem7">Semester 7</option>
-              <option value="sem8">Semester 8</option>
-            </select>
-
-            {/* Content Type Selector */}
-            <select className="bg-gray-700 text-white p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 text-base w-full md:w-auto">
-              <option value="">Select Content Type</option>
-              <option value="notes">Notes</option>
-              <option value="pyqs">PYQs</option>
-              <option value="organizers">MAKAUT Organizers</option>
-              <option value="books">Books</option>
-              <option value="suggestions">Suggestions</option>
-            </select>
-
-            {/* Go Button */}
-            <button className="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-3 px-8 rounded-full text-lg transition duration-300 transform hover:scale-105 w-full md:w-auto">
-              Go!
-            </button>
-          </div>
-          {/* Small note about future functionality */}
-          <p className="text-sm text-gray-400 mt-2 mb-8">(Note: Functionality to filter and display content will be added in future steps.)</p>
-
-          {/* Existing Explore/Contact Call-to-Action Buttons */}
-          <div className="space-x-4 animate-fadeIn delay-800">
-            <Link href="/semesters" className="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-3 px-8 rounded-full text-lg transition duration-300 transform hover:scale-105">
-                Explore All Semesters
-            </Link>
-            <Link href="/contact" className="bg-transparent border-2 border-yellow-500 hover:bg-yellow-500 text-yellow-500 hover:text-gray-900 font-bold py-3 px-8 rounded-full text-lg transition duration-300 transform hover:scale-105">
-                Get in Touch
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Feature Sections - "What We Offer" section */}
-      <section className="py-16 px-8 container mx-auto">
-        <h2 className="text-4xl font-bold text-center text-yellow-300 mb-12">What We Offer</h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* Card for Comprehensive Notes */}
-          <div className="bg-gray-800 p-8 rounded-lg shadow-lg text-center transform hover:scale-105 transition duration-300">
-            <FaBookOpen className="mx-auto text-5xl text-yellow-500 mb-4" /> {/* Book icon */}
-            <h3 className="text-2xl font-semibold text-white mb-3">Comprehensive Notes</h3>
-            <p className="text-gray-300">Detailed, organized notes for all subjects, designed to simplify complex topics and boost understanding.</p>
-          </div>
-
-          {/* Card for Previous Year Questions */}
-          <div className="bg-gray-800 p-8 rounded-lg shadow-lg text-center transform hover:scale-105 transition duration-300">
-            <FaClipboardList className="mx-auto text-5xl text-yellow-500 mb-4" /> {/* Clipboard icon */}
-            <h3 className="text-2xl font-semibold text-white mb-3">Previous Year Questions (PYQs)</h3>
-            <p className="text-gray-300">Practice with a vast collection of PYQs to master exam patterns and improve your scores.</p>
-          </div>
-
-          {/* Card for MAKAUT Organizers (study materials) */}
-          <div className="bg-gray-800 p-8 rounded-lg shadow-lg text-center transform hover:scale-105 transition duration-300">
-            <FaBook className="mx-auto text-5xl text-yellow-500 mb-4" /> {/* Book icon, again for organizers */}
-            <h3 className="text-2xl font-semibold text-white mb-3">MAKAUT Organizers</h3>
-            <p className="text-gray-300">Access comprehensive MAKAUT Organizers for previous year questions, solutions, and exam tips.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* About Section - Information about The Back Benchers */}
-      <section className="py-16 px-8 bg-gray-800 text-center">
-        <div className="container mx-auto max-w-3xl">
-          <h2 className="text-4xl font-bold text-yellow-300 mb-6">About The Back Benchers</h2>
-          <p className="text-lg text-gray-300 leading-relaxed">
-            We are a community-driven platform dedicated to empowering MAKAUT students with easy access to study materials.
-            Our goal is to make learning efficient and effective, helping you excel in your academic journey.
+          <div className="h-[1px] w-12 bg-yellow-500 mx-auto mb-5 opacity-40"></div>
+          <p className="text-[11px] md:text-[14px] text-gray-400 leading-relaxed tracking-wide">
+            We empower MAKAUT students with a premium repository of 
+            <span className="text-white font-bold"> Semester Notes</span>, 
+            <span className="text-white font-bold"> Previous Year Questions (PYQs)</span>, 
+            <span className="text-white font-bold"> MAKAUT Organizers</span>, and 
+            <span className="text-white font-bold"> Exam Guides</span>.
+            Everything you need to turn back-bench potential into top-tier results.
           </p>
         </div>
+
+        {/* LinkedIn Connection Card */}
+        <div className="bg-gray-800/30 backdrop-blur-xl p-4 rounded-2xl border border-gray-700/50 max-w-[260px] w-full hover:border-yellow-500/40 transition-all duration-500 group shadow-2xl text-center">
+          <FaLinkedin className="text-3xl text-[#0077B5] mx-auto mb-2 group-hover:scale-110 transition-transform" />
+          <h3 className="text-sm font-bold mb-1">Connect with the Creator</h3>
+          <p className="text-gray-500 text-[8px] mb-4 uppercase tracking-widest leading-tight">
+            Building a network for the next generation.
+          </p>
+          <a href="https://www.linkedin.com/in/avijit-das-320200284/" target="_blank" rel="noopener noreferrer" className="block w-full bg-[#0077B5] py-2 rounded-lg font-bold text-[10px] uppercase hover:bg-[#005a87] transition shadow-lg">
+            Visit My Profile
+          </a>
+        </div>
       </section>
 
-      {/* Footer Section - Copyright information */}
-      <section className="py-12 text-center bg-gray-900">
-        <p className="text-gray-400">&copy; {new Date().getFullYear()} The Back Benchers. All rights reserved.</p>
+      {/* SECTION 2: DEPARTMENTS */}
+      <section id="departments" className="min-h-screen w-full max-w-6xl py-20 px-10 flex flex-col items-center justify-center">
+        <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-white mb-12">
+          SELECT YOUR <span className="text-yellow-500">DEPARTMENT</span>
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 w-full">
+          {[
+            { name: 'CSE/IT', icon: '💻' },
+            { name: 'EE', icon: '⚡' },
+            { name: 'CE', icon: '🏗️' },
+            { name: 'ECE', icon: '📡' },
+            { name: 'ME', icon: '⚙️' }
+          ].map((dept) => (
+            <Link 
+              key={dept.name} 
+              href={`/departments/${dept.name.toLowerCase().replace('/', '-')}`} 
+              className="bg-gray-800/20 backdrop-blur-xl p-8 rounded-3xl border border-gray-700/50 flex flex-col items-center justify-center hover:scale-105 transition-all shadow-2xl"
+            >
+              <span className="text-4xl mb-4">{dept.icon}</span>
+              <h3 className="text-lg font-bold text-white uppercase tracking-widest">{dept.name}</h3>
+            </Link>
+          ))}
+        </div>
       </section>
 
+      {/* SECTION 3: NOTICE BOARD - Dynamic from DB */}
+      <section id="notice" className="min-h-screen w-full max-w-4xl py-20 px-10 flex flex-col items-center justify-center">
+        <div className="flex items-center gap-4 mb-10">
+          <FaBell className="text-yellow-500 text-3xl animate-pulse" />
+          <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-white">
+            NOTICE <span className="text-yellow-500">BOARD</span>
+          </h2>
+        </div>
+        <NoticeBoard />
+      </section>
+
+      {/* SECTION 4: UPCOMING PROJECTS */}
+      <section id="upcoming" className="min-h-screen w-full max-w-6xl py-20 px-10 flex flex-col items-center justify-center">
+        <div className="flex items-center gap-4 mb-10">
+          <FaRocket className="text-yellow-500 text-3xl animate-bounce" />
+          <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-white">
+            UPCOMING <span className="text-yellow-500">PROJECTS</span>
+          </h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 w-full">
+          {[
+            { title: 'AI Assistant', desc: 'Personalized study schedules based on your MAKAUT syllabus.' },
+            { title: 'Live Mentorship', desc: 'Connect with seniors who already cleared the backlogs.' },
+            { title: 'Job Portal', desc: 'Direct placement opportunities for technical streams.' }
+          ].map((item, index) => (
+            <div key={index} className="relative group cursor-default">
+              <div className="bg-gray-800/20 border border-gray-700/50 rounded-3xl p-12 flex items-center justify-center h-48 group-hover:border-yellow-500/50 transition-all duration-500 shadow-2xl">
+                <span className="text-2xl font-black uppercase tracking-tighter opacity-20">{item.title}</span>
+              </div>
+              <div className="mt-4 p-4 rounded-xl bg-white/5 backdrop-blur-md border border-white/10">
+                <h4 className="text-yellow-500 font-bold text-sm uppercase mb-2">{item.title}</h4>
+                <p className="text-gray-400 text-xs leading-relaxed italic">{item.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* SECTION 5: ABOUT US */}
+      <section id="about" className="min-h-screen w-full max-w-5xl py-20 px-10 flex flex-col items-center justify-center">
+        <div className="flex items-center gap-4 mb-6">
+          <FaInfoCircle className="text-yellow-500 text-3xl" />
+          <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-white">
+            ABOUT <span className="text-yellow-500">US</span>
+          </h2>
+        </div>
+        <div className="bg-gray-800/10 backdrop-blur-lg border border-gray-700/30 p-10 rounded-[40px] text-center shadow-inner max-w-4xl">
+          <p className="text-base md:text-lg text-gray-300 leading-relaxed font-light">
+            We are a dedicated team of engineering students from <span className="text-white font-bold">IMPS College of Engineering and Technology</span>. 
+            Driven by the challenges of the academic landscape, we built <span className="text-yellow-500 font-bold italic">The Back Benchers</span> 
+            as a centralized hub to bridge the gap between complex MAKAUT syllabi and student success. 
+            Our mission is to provide high-quality, accessible resources that empower every student to excel.
+          </p>
+        </div>
+      </section>
+
+      {/* SECTION 6: CONTACT US & THE TEAM */}
+      <section id="contact" className="min-h-screen w-full max-w-6xl py-20 px-10 flex flex-col items-center justify-center">
+        <div className="flex items-center gap-4 mb-12">
+          <FaEnvelope className="text-yellow-500 text-3xl" />
+          <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-white">
+            CONTACT <span className="text-yellow-500">US</span>
+          </h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+          {[
+            { name: 'Avijit Das', role: 'Project Lead', icon: <FaUserTie className="text-yellow-500" /> },
+            { name: 'MD Asikul Hoque', role: 'Technical Contributor', icon: <FaUserTie className="text-white/40" /> },
+            { name: 'Tanmoy Das', role: 'Technical Contributor', icon: <FaUserTie className="text-white/40" /> }
+          ].map((member, index) => (
+            <div key={index} className="bg-gray-800/20 backdrop-blur-xl border border-gray-700/50 p-8 rounded-3xl text-center hover:border-yellow-500/50 transition-all duration-500 shadow-2xl group">
+              <div className="text-4xl mb-4 flex justify-center group-hover:scale-110 transition-transform">
+                {member.icon}
+              </div>
+              <h3 className="text-xl font-black text-white uppercase tracking-tighter mb-1">{member.name}</h3>
+              <p className="text-gray-500 text-[10px] uppercase tracking-[0.2em] font-bold">{member.role}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <div className="py-10 opacity-20 text-[9px] tracking-widest uppercase text-center w-full">
+        © 2025 THE BACK BENCHERS
+      </div>
+    </div>
+  );
+}
+
+// ── Notice Board Component ──
+function NoticeBoard() {
+  const [notices, setNotices] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/notices")
+      .then(res => res.json())
+      .then(data => { setNotices(data); setLoading(false); });
+  }, []);
+
+  if (loading) return (
+    <div className="text-gray-400 text-sm animate-pulse">Loading notices...</div>
+  );
+
+  if (notices.length === 0) return (
+    <div className="text-gray-500 text-sm">No notices yet. Check back soon!</div>
+  );
+
+  return (
+    <div className="w-full space-y-4 text-left">
+      {notices.map((item) => (
+        <div key={item._id}
+          className="bg-gray-800/20 backdrop-blur-md p-6 rounded-2xl border-l-4 border-yellow-500 flex items-center justify-between hover:bg-gray-800/40 transition-all">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-yellow-500 font-bold text-xs uppercase tracking-widest">{item.type}</span>
+              {item.pinned && (
+                <span className="text-[10px] bg-yellow-500 text-black px-2 py-0.5 rounded-full font-bold">PINNED</span>
+              )}
+            </div>
+            <h3 className="text-white font-bold text-lg mt-1">{item.title}</h3>
+            {item.link && (
+              <a href={item.link} target="_blank" rel="noopener noreferrer"
+                className="text-yellow-400 text-xs underline mt-1 inline-block">
+                View Details →
+              </a>
+            )}
+          </div>
+          <span className="text-gray-500 font-mono text-sm shrink-0 ml-4">{item.date}</span>
+        </div>
+      ))}
     </div>
   );
 }
