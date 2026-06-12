@@ -3,8 +3,9 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function AdminPage() {
-  const router = useRouter();  // ✅ now inside
+  const router = useRouter();
 
+  // ── Auth guard ──
   useEffect(() => {
     if (sessionStorage.getItem("admin_auth") !== "true") {
       router.replace("/admin/login");
@@ -14,7 +15,6 @@ export default function AdminPage() {
   // ── Subject state ──
   const [subForm, setSubForm] = useState({ name: "", code: "", department: "", semester: "" });
   const [subMsg, setSubMsg] = useState("");
-  // ... rest unchanged
 
   // ── Material state ──
   const [form, setForm] = useState({ title: "", subject: "", semester: "", department: "", type: "notes", year: "" });
@@ -146,7 +146,6 @@ export default function AdminPage() {
           {noticeMsg && <p className="text-center">{noticeMsg}</p>}
         </div>
 
-        {/* Live notice list with delete */}
         <div className="mt-6 space-y-3">
           {notices.length === 0 && <p className="text-gray-500 text-sm">No notices yet.</p>}
           {notices.map(n => (
@@ -164,6 +163,13 @@ export default function AdminPage() {
           ))}
         </div>
       </div>
+
+      {/* ── LOGOUT ── */}
+      <button
+        onClick={() => { sessionStorage.removeItem("admin_auth"); router.replace("/admin/login"); }}
+        className="mt-4 px-6 py-2 bg-red-600 text-white font-bold rounded hover:bg-red-500 transition">
+        Logout
+      </button>
 
     </div>
   );
