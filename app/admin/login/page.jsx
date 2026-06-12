@@ -9,7 +9,7 @@ export default function AdminLogin() {
 
   const handleLogin = () => {
     // Simple password check — hardcoded for now, easy to upgrade later
-    if (password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD || password === "backbenchers@admin") {
+    if (password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD || password === "backbenchers@Aj7384") {
       sessionStorage.setItem("admin_auth", "true");
       router.push("/admin");
     } else {
