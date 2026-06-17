@@ -14,7 +14,8 @@ export async function GET(request) {
   if (searchParams.get("department")) filter.department = searchParams.get("department");
   
   // Added subject filter
-  if (searchParams.get("subject"))    filter.subject    = searchParams.get("subject");
+  if (searchParams.get("subject"))
+  filter.subject = { $regex: new RegExp(`^${searchParams.get("subject")}$`, "i") };
 
   const materials = await Material.find(filter).sort({ uploadedAt: -1 });
   return NextResponse.json(materials);
