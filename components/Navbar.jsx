@@ -1,9 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 
 export default function Navbar() {
   const [active, setActive] = useState('home');
+  const router = useRouter();
+  const pathname = usePathname();
 
   const links = [
     { id: 'home', label: 'Home' },
@@ -15,11 +18,35 @@ export default function Navbar() {
   ];
 
   const scrollToSection = (id) => {
-    document.getElementById(id)?.scrollIntoView({
-      behavior: 'smooth',
-    });
-    setActive(id);
+    if (pathname === '/') {
+      // Already on the homepage — just scroll to the section
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+      setActive(id);
+    } else {
+      // On a different route (e.g. a department/semester page) —
+      // navigate back to the homepage with a hash, the effect below
+      // will pick it up and scroll once the page has mounted.
+      router.push(`/#${id}`);
+    }
   };
+
+  // Runs whenever we land on "/" — including right after the router.push
+  // above — and scrolls to whatever section the hash points to.
+  useEffect(() => {
+    if (pathname !== '/') return;
+
+    const hash = window.location.hash.replace('#', '');
+    if (!hash) return;
+
+    // Small delay so the homepage's sections are actually in the DOM
+    // before we try to scroll to them.
+    const timer = setTimeout(() => {
+      document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth' });
+      setActive(hash);
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [pathname]);
 
   return (
     <nav

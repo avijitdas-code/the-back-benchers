@@ -23,7 +23,7 @@ const handler = NextAuth({
   ],
   session: { strategy: "jwt" },
   pages: {
-    signIn: "/login", // Custom login page (we'll build this)
+    signIn: "/admin/login", // matches your actual login route
   },
   secret: process.env.NEXTAUTH_SECRET,
 });

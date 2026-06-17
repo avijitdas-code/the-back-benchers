@@ -245,21 +245,54 @@ export default function HomePage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-8 w-full">
               {[
-                { name: 'Avijit Das', role: 'Project Lead', icon: <FaUserTie className="text-yellow-500" /> },
-                { name: 'MD Asikul Hoque', role: 'Technical Contributor', icon: <FaUserTie className="text-white/40" /> },
-                { name: 'Tanmoy Das', role: 'Technical Contributor', icon: <FaUserTie className="text-white/40" /> }
-              ].map((member, index) => (
-                <div
-                  key={index}
-                  className="bg-gray-800/20 backdrop-blur-xl border border-gray-700/50 p-6 sm:p-8 rounded-2xl sm:rounded-3xl text-center hover:border-yellow-500/50 transition-all duration-500 shadow-2xl group"
-                >
-                  <div className="text-3xl sm:text-4xl mb-3 sm:mb-4 flex justify-center group-hover:scale-110 transition-transform">
-                    {member.icon}
+                {
+                  name: 'Avijit Das',
+                  role: 'Project Lead',
+                  icon: <FaUserTie className="text-yellow-500" />,
+                  linkedin: 'https://www.linkedin.com/in/avijit-das-320200284/',
+                },
+                {
+                  name: 'MD Asikul Hoque',
+                  role: 'Technical Contributor',
+                  icon: <FaUserTie className="text-white/40" />,
+                  linkedin: 'https://www.linkedin.com/in/md-asikul-hoque-b10b863a2/',
+                },
+                {
+                  name: 'Tanmoy Das',
+                  role: 'Technical Contributor',
+                  icon: <FaUserTie className="text-white/40" />,
+                  linkedin: null,
+                },
+              ].map((member, index) => {
+                const CardContent = (
+                  <>
+                    <div className="text-3xl sm:text-4xl mb-3 sm:mb-4 flex justify-center group-hover:scale-110 transition-transform">
+                      {member.icon}
+                    </div>
+                    <h3 className="text-base sm:text-xl font-black text-white uppercase tracking-tighter mb-1">{member.name}</h3>
+                    <p className="text-gray-500 text-[9px] sm:text-[10px] uppercase tracking-[0.2em] font-bold">{member.role}</p>
+                  </>
+                );
+
+                const cardClasses =
+                  "bg-gray-800/20 backdrop-blur-xl border border-gray-700/50 p-6 sm:p-8 rounded-2xl sm:rounded-3xl text-center hover:border-yellow-500/50 transition-all duration-500 shadow-2xl group";
+
+                return member.linkedin ? (
+                  <a
+                    key={index}
+                    href={member.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${cardClasses} cursor-pointer block`}
+                  >
+                    {CardContent}
+                  </a>
+                ) : (
+                  <div key={index} className={cardClasses}>
+                    {CardContent}
                   </div>
-                  <h3 className="text-base sm:text-xl font-black text-white uppercase tracking-tighter mb-1">{member.name}</h3>
-                  <p className="text-gray-500 text-[9px] sm:text-[10px] uppercase tracking-[0.2em] font-bold">{member.role}</p>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </section>
 

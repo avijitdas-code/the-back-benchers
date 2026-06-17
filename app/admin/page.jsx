@@ -1,16 +1,18 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
 
 export default function AdminPage() {
   const router = useRouter();
+  const { status } = useSession();
 
   // ── Auth guard ──
   useEffect(() => {
-    if (sessionStorage.getItem("admin_auth") !== "true") {
+    if (status === "unauthenticated") {
       router.replace("/admin/login");
     }
-  }, []);
+  }, [status, router]);
 
   // ── Subject state ──
   const [subForm, setSubForm] = useState({ name: "", code: "", department: "", semester: "" });
@@ -83,6 +85,18 @@ export default function AdminPage() {
     });
     setNotices(prev => prev.filter(n => n._id !== id));
   };
+
+  // ── Don't render the panel until session state is known ──
+  if (status === "loading") {
+    return (
+      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+        <p className="text-gray-400">Checking session…</p>
+      </div>
+    );
+  }
+  if (status === "unauthenticated") {
+    return null; // useEffect above is already redirecting
+  }
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-10">
@@ -166,7 +180,7 @@ export default function AdminPage() {
 
       {/* ── LOGOUT ── */}
       <button
-        onClick={() => { sessionStorage.removeItem("admin_auth"); router.replace("/admin/login"); }}
+        onClick={() => signOut({ callbackUrl: "/admin/login" })}
         className="mt-4 px-6 py-2 bg-red-600 text-white font-bold rounded hover:bg-red-500 transition">
         Logout
       </button>
