@@ -32,14 +32,16 @@ const SplitText = ({
   }, [onLetterAnimationComplete]);
 
   useEffect(() => {
-    if (document.fonts.status === 'loaded') {
-      setFontsLoaded(true);
-    } else {
-      document.fonts.ready.then(() => {
-        setFontsLoaded(true);
-      });
-    }
-  }, []);
+  let cancelled = false;
+  if (document.fonts.status === 'loaded') {
+    setTimeout(() => { if (!cancelled) setFontsLoaded(true); }, 0);
+  } else {
+    document.fonts.ready.then(() => {
+      if (!cancelled) setFontsLoaded(true);
+    });
+  }
+  return () => { cancelled = true; };
+}, []);
 
   useGSAP(
     () => {

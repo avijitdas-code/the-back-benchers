@@ -73,7 +73,7 @@ export default function HomePage() {
 
             <div className="max-w-3xl mb-6 sm:mb-8 text-center px-2">
               <p className="text-xs sm:text-sm md:text-lg text-gray-300 italic mb-4 font-light leading-snug">
-                "Your seat in the back doesn't define your future, but your hustle does."
+                &quot;Your seat in the back doesn&apos;t define your future, but your hustle does.&quot;
               </p>
               <div className="h-[1px] w-12 bg-yellow-500 mx-auto mb-4 sm:mb-5 opacity-40"></div>
               <p className="text-[10px] sm:text-[11px] md:text-[14px] text-gray-400 leading-relaxed tracking-wide">
