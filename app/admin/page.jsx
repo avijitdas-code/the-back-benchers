@@ -65,15 +65,16 @@ export default function AdminPage() {
     if (!form.department || !form.semester) return setMessage("❌ Department & semester required!");
 
     setLoading(true);
-    const formData = new FormData();
-    formData.append("file", file);
-    // normalise subject & department for consistent matching
-    formData.append("title",      form.subject.trim());
-    formData.append("subject",    form.subject.trim().toLowerCase());
-    formData.append("semester",   form.semester);
-    formData.append("department", form.department);
-    formData.append("type",       form.type);
-    formData.append("year",       "");
+const formData = new FormData();
+formData.append("file", file);
+
+// normalise subject & department for consistent matching
+formData.append("title",      form.subject.trim());
+formData.append("subject",    form.subject.trim().toLowerCase());
+formData.append("semester",   form.semester);
+formData.append("department", form.department);
+formData.append("type",       form.type);
+formData.append("year",       form.year);
 
     const res  = await fetch("/api/upload", { method: "POST", body: formData });
     const data = await res.json();
@@ -190,17 +191,38 @@ export default function AdminPage() {
             onChange={e => setForm({ ...form, subject: e.target.value })}
           />
           <select
-            className={selectCls}
-            value={form.type}
-            onChange={e => setForm({ ...form, type: e.target.value })}>
-            {TYPES.map(t => <option key={t} value={t}>{t.toUpperCase()}</option>)}
-          </select>
-          <input
-            type="file"
-            accept=".pdf"
-            className={inputCls}
-            onChange={e => setFile(e.target.files[0])}
-          />
+  className={selectCls}
+  value={form.type}
+  onChange={e => setForm({ ...form, type: e.target.value })}
+>
+  {TYPES.map(t => (
+    <option key={t} value={t}>
+      {t.toUpperCase()}
+    </option>
+  ))}
+</select>
+
+{form.type === "pyq" && (
+  <select
+    className={selectCls}
+    value={form.year}
+    onChange={e => setForm({ ...form, year: e.target.value })}
+  >
+    <option value="">Select Academic Year</option>
+    <option value="2025-2026">2025-2026</option>
+    <option value="2024-2025">2024-2025</option>
+    <option value="2023-2024">2023-2024</option>
+    <option value="2022-2023">2022-2023</option>
+    <option value="2021-2022">2021-2022</option>
+  </select>
+)}
+
+<input
+  type="file"
+  accept=".pdf"
+  className={inputCls}
+  onChange={e => setFile(e.target.files[0])}
+/>
           <button
             onClick={handleSubmit}
             disabled={loading}
