@@ -1,31 +1,50 @@
 import { connectDB } from "@/lib/dbConnect";
 import Material from "@/models/Material";
+import { deleteFromCloudinary } from "@/lib/cloudinary";
 import { NextResponse } from "next/server";
 
-// GET /api/materials?semester=3&type=pyq&department=CSE&subject=DSA
 export async function GET(request) {
-  await connectDB();
+  try {
+    await connectDB();
+    const { searchParams } = new URL(request.url);
+    const department = searchParams.get("department");
+    const semester   = searchParams.get("semester");
+    const type       = searchParams.get("type");
 
-  const { searchParams } = new URL(request.url);
-  const filter = {};
+    const filter = {};
+    if (department) filter.department = department;
+    if (semester)   filter.semester   = Number(semester);
+    if (type)        filter.type      = type;
 
-  if (searchParams.get("semester"))   filter.semester   = searchParams.get("semester");
-  if (searchParams.get("type"))       filter.type       = searchParams.get("type");
-  if (searchParams.get("department")) filter.department = searchParams.get("department");
-  
-  // Added subject filter
-  if (searchParams.get("subject"))
-  filter.subject = { $regex: new RegExp(`^${searchParams.get("subject")}$`, "i") };
-
-  const materials = await Material.find(filter).sort({ uploadedAt: -1 });
-  return NextResponse.json(materials);
+    const materials = await Material.find(filter).sort({ uploadedAt: -1 });
+    return NextResponse.json(materials);
+  } catch (error) {
+    console.error("GET /api/materials error:", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
 }
 
-// POST /api/materials (for adding new materials later)
-export async function POST(request) {
-  await connectDB();
+export async function DELETE(request) {
+  try {
+    await connectDB();
+    const { id } = await request.json();
 
-  const body = await request.json();
-  const material = await Material.create(body);
-  return NextResponse.json(material, { status: 201 });
+    const material = await Material.findById(id);
+    if (!material) {
+      return NextResponse.json({ error: "Material not found" }, { status: 404 });
+    }
+
+    try {
+      await deleteFromCloudinary(material.driveFileId);
+    } catch (cloudErr) {
+      // Don't let a Cloudinary hiccup block cleaning up the database record.
+      console.error("Cloudinary delete failed:", cloudErr);
+    }
+
+    await Material.findByIdAndDelete(id);
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("DELETE /api/materials error:", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
 }
