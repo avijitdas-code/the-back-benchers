@@ -51,7 +51,7 @@ export default function Navbar() {
   return (
     <nav
       className="
-      fixed top-5 left-1/2
+      fixed top-3 sm:top-5 left-1/2
       -translate-x-1/2
       z-50
       backdrop-blur-xl
@@ -59,17 +59,21 @@ export default function Navbar() {
       border border-white/10
       shadow-2xl
       rounded-full
-      px-3 py-2
+      px-2 sm:px-3 py-1.5 sm:py-2
+      max-w-[94vw]
+      overflow-x-auto
+      no-scrollbar
       "
     >
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-0.5 sm:gap-1 w-max">
         {links.map((link) => (
           <button
             key={link.id}
             onClick={() => scrollToSection(link.id)}
             className={`
-              px-4 py-2 rounded-full
-              text-sm font-medium
+              px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full
+              text-xs sm:text-sm font-medium
+              whitespace-nowrap
               transition-all duration-300
               ${
                 active === link.id

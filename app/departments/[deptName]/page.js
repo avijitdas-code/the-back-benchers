@@ -20,13 +20,13 @@ export default function SemesterSelection() {
   const formattedDept = deptName?.toUpperCase().replace('-', '/');
 
   return (
-    <div className="min-h-screen bg-[#0B0F1A] text-white flex flex-col items-center justify-center px-6 py-20">
-      
-      <div className="text-center mb-16">
+    <div className="sm:min-h-screen bg-[#0B0F1A] text-white flex flex-col items-center justify-center px-6 py-16 sm:py-20">
+
+      <div className="text-center mb-10 sm:mb-16">
         <p className="text-yellow-500 text-xs font-bold uppercase tracking-widest mb-4">
           {formattedDept} Department
         </p>
-        <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter">
+        <h1 className="text-4xl sm:text-5xl md:text-7xl font-black uppercase tracking-tighter">
           SELECT YOUR <span className="text-yellow-500">SEMESTER</span>
         </h1>
         <p className="mt-4 text-gray-400 font-light tracking-widest uppercase text-xs">

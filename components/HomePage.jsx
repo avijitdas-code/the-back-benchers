@@ -44,7 +44,7 @@ export default function HomePage() {
           {/* SECTION 1: HERO */}
           <section
             id="home"
-            className="min-h-screen w-full max-w-5xl px-4 sm:px-6 flex flex-col items-center justify-center pt-16 sm:pt-20 pb-10"
+            className="sm:min-h-screen w-full max-w-5xl px-4 sm:px-6 flex flex-col items-center justify-center pt-16 sm:pt-20 pb-10"
           >
             <p className="text-[9px] sm:text-[10px] md:text-sm font-medium text-gray-400 mb-2 tracking-[0.25em] sm:tracking-[0.3em] uppercase text-center w-full">
               NICE TO MEET YOU, <span className="text-yellow-500">{userName}</span>
@@ -107,7 +107,7 @@ export default function HomePage() {
           {/* SECTION 2: DEPARTMENTS */}
           <section
             id="departments"
-            className="min-h-screen w-full max-w-6xl py-16 sm:py-20 px-4 sm:px-6 md:px-10 flex flex-col items-center justify-center"
+            className="sm:min-h-screen w-full max-w-6xl py-16 sm:py-20 px-4 sm:px-6 md:px-10 flex flex-col items-center justify-center"
           >
             <div className="text-center mb-8 sm:mb-12">
   <div className="flex justify-center items-center flex-wrap gap-2">
@@ -151,7 +151,7 @@ export default function HomePage() {
           {/* SECTION 3: NOTICE BOARD */}
           <section
             id="notice"
-            className="min-h-screen w-full max-w-4xl py-16 sm:py-20 px-4 sm:px-6 md:px-10 flex flex-col items-center justify-center"
+            className="sm:min-h-screen w-full max-w-4xl py-16 sm:py-20 px-4 sm:px-6 md:px-10 flex flex-col items-center justify-center"
           >
             <div className="flex items-center gap-3 sm:gap-4 mb-8 sm:mb-10">
               <FaBell className="text-yellow-500 text-2xl sm:text-3xl animate-pulse shrink-0" />
@@ -169,7 +169,7 @@ export default function HomePage() {
           {/* SECTION 4: UPCOMING PROJECTS */}
           <section
             id="upcoming"
-            className="min-h-screen w-full max-w-6xl py-16 sm:py-20 px-4 sm:px-6 md:px-10 flex flex-col items-center justify-center"
+            className="sm:min-h-screen w-full max-w-6xl py-16 sm:py-20 px-4 sm:px-6 md:px-10 flex flex-col items-center justify-center"
           >
             <div className="flex items-center gap-3 sm:gap-4 mb-8 sm:mb-10">
               <FaRocket className="text-yellow-500 text-2xl sm:text-3xl animate-bounce shrink-0" />
@@ -204,7 +204,7 @@ export default function HomePage() {
           {/* SECTION 5: ABOUT US */}
           <section
             id="about"
-            className="min-h-screen w-full max-w-5xl py-16 sm:py-20 px-4 sm:px-6 md:px-10 flex flex-col items-center justify-center"
+            className="sm:min-h-screen w-full max-w-5xl py-16 sm:py-20 px-4 sm:px-6 md:px-10 flex flex-col items-center justify-center"
           >
             <div className="mb-6 sm:mb-8">
               <ScrollFloat
@@ -230,7 +230,7 @@ export default function HomePage() {
           {/* SECTION 6: CONTACT US & THE TEAM */}
           <section
             id="contact"
-            className="min-h-screen w-full max-w-6xl py-16 sm:py-20 px-4 sm:px-6 md:px-10 flex flex-col items-center justify-center"
+            className="sm:min-h-screen w-full max-w-6xl py-16 sm:py-20 px-4 sm:px-6 md:px-10 flex flex-col items-center justify-center"
           >
             <div className="flex items-center gap-3 sm:gap-4 mb-8 sm:mb-12">
               <FaEnvelope className="text-yellow-500 text-2xl sm:text-3xl shrink-0" />

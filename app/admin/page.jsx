@@ -27,11 +27,22 @@ const NOTICE_BADGE = {
 const inputCls  = "w-full p-3 rounded bg-gray-800 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-yellow-400";
 const selectCls = "w-full p-3 rounded bg-gray-800 border border-gray-700 text-white focus:outline-none focus:border-yellow-400";
 
+const ICON_PROPS = { viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" };
+
+function IconGrid(props)   { return <svg {...ICON_PROPS} {...props}><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></svg>; }
+function IconPlus(props)   { return <svg {...ICON_PROPS} {...props}><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>; }
+function IconList(props)   { return <svg {...ICON_PROPS} {...props}><line x1="8" y1="6" x2="20" y2="6" /><line x1="8" y1="12" x2="20" y2="12" /><line x1="8" y1="18" x2="20" y2="18" /><circle cx="4" cy="6" r="0.5" fill="currentColor" /><circle cx="4" cy="12" r="0.5" fill="currentColor" /><circle cx="4" cy="18" r="0.5" fill="currentColor" /></svg>; }
+function IconUpload(props) { return <svg {...ICON_PROPS} {...props}><path d="M12 3v12" /><path d="M7 8l5-5 5 5" /><path d="M5 21h14" /></svg>; }
+function IconFolder(props) { return <svg {...ICON_PROPS} {...props}><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z" /></svg>; }
+function IconMegaphone(props) { return <svg {...ICON_PROPS} {...props}><path d="M3 10v4a1 1 0 0 0 1 1h2l4 4V5L6 9H4a1 1 0 0 0-1 1z" /><path d="M14 8a4 4 0 0 1 0 8" /><path d="M17 5a8 8 0 0 1 0 14" /></svg>; }
+function IconBell(props)   { return <svg {...ICON_PROPS} {...props}><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg>; }
+function IconPower(props)  { return <svg {...ICON_PROPS} {...props}><path d="M12 2v8" /><path d="M18.36 6.64a9 9 0 1 1-12.73 0" /></svg>; }
+
 const NAV_SECTIONS = [
-  { items: [{ id: "dashboard", label: "Dashboard", icon: "🏠" }] },
-  { title: "Subjects",  items: [{ id: "add-subject",     label: "Add subject",  icon: "➕" }, { id: "view-subjects",   label: "View & delete", icon: "📋" }] },
-  { title: "Materials", items: [{ id: "upload-material", label: "Upload material", icon: "📤" }, { id: "view-materials", label: "View & delete", icon: "📁" }] },
-  { title: "Notices",   items: [{ id: "add-notice",      label: "Add notice",  icon: "📢" }, { id: "view-notices",    label: "View & delete", icon: "🔔" }] },
+  { items: [{ id: "dashboard", label: "Dashboard", icon: IconGrid }] },
+  { title: "Subjects",  items: [{ id: "add-subject",     label: "Add subject",  icon: IconPlus }, { id: "view-subjects",   label: "View & delete", icon: IconList }] },
+  { title: "Materials", items: [{ id: "upload-material", label: "Upload material", icon: IconUpload }, { id: "view-materials", label: "View & delete", icon: IconFolder }] },
+  { title: "Notices",   items: [{ id: "add-notice",      label: "Add notice",  icon: IconMegaphone }, { id: "view-notices",    label: "View & delete", icon: IconBell }] },
 ];
 
 export default function AdminPage() {
@@ -231,7 +242,7 @@ export default function AdminPage() {
                     (active ? "bg-yellow-400/10 text-yellow-300 font-medium" : "text-gray-300 hover:bg-gray-800")
                   }
                 >
-                  <span className="text-xs">{item.icon}</span>
+                  <item.icon className="w-4 h-4 shrink-0" />
                   {item.label}
                 </button>
               );
@@ -245,7 +256,8 @@ export default function AdminPage() {
             onClick={() => signOut({ callbackUrl: "/admin/login" })}
             className="w-full flex items-center gap-2 px-3 py-2 rounded text-sm text-red-400 bg-red-500/10 hover:bg-red-500/20"
           >
-            ⏻ Logout
+            <IconPower className="w-4 h-4" />
+            Logout
           </button>
         </div>
       </aside>
