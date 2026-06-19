@@ -10,11 +10,13 @@ export async function GET(request) {
     const department = searchParams.get("department");
     const semester   = searchParams.get("semester");
     const type       = searchParams.get("type");
+    const subject    = searchParams.get("subject");
 
     const filter = {};
     if (department) filter.department = department;
     if (semester)   filter.semester   = Number(semester);
     if (type)        filter.type      = type;
+    if (subject)      filter.subject  = subject;
 
     const materials = await Material.find(filter).sort({ uploadedAt: -1 });
     return NextResponse.json(materials);

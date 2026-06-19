@@ -22,3 +22,15 @@ export async function POST(request) {
   const subject = await Subject.create(body);
   return NextResponse.json(subject, { status: 201 });
 }
+
+export async function DELETE(request) {
+  try {
+    await connectDB();
+    const { id } = await request.json();
+    await Subject.findByIdAndDelete(id);
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("DELETE /api/subjects error:", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}

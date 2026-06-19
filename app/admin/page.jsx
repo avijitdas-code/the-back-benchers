@@ -72,6 +72,12 @@ export default function AdminPage() {
 
   // ── Material filters (view & delete) ──
   const [matFilters, setMatFilters] = useState({ department: "", semester: "", type: "" });
+  const [subjectFilter, setSubjectFilter] = useState("");
+
+  // ── Delete feedback ──
+  const [subDeleteMsg, setSubDeleteMsg] = useState("");
+  const [matDeleteMsg, setMatDeleteMsg] = useState("");
+  const [noticeDeleteMsg, setNoticeDeleteMsg] = useState("");
 
   // ── Notice form ──
   const [noticeForm, setNoticeForm] = useState({ title: "", type: "General", link: "", pinned: false });
@@ -127,13 +133,26 @@ export default function AdminPage() {
     }
   };
 
-  const handleDeleteSubject = async (id) => {
-    await fetch("/api/subjects", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id }),
-    });
-    fetchSubjects();
+  const handleDeleteSubject = async (id, name) => {
+    if (!window.confirm(`Delete subject "${name}"? This won't delete materials already uploaded under it.`)) return;
+    setSubDeleteMsg("");
+    try {
+      const res = await fetch("/api/subjects", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        console.error("Delete subject failed:", data);
+        setSubDeleteMsg("❌ Couldn't delete: " + (data.error || res.status));
+        return;
+      }
+      fetchSubjects();
+    } catch (err) {
+      console.error("Delete subject failed:", err);
+      setSubDeleteMsg("❌ Network error: " + err.message);
+    }
   };
 
   // ── Material handlers ──
@@ -172,17 +191,31 @@ export default function AdminPage() {
     }
   };
 
-  const handleDeleteMaterial = async (id) => {
-    await fetch("/api/materials", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id }),
-    });
-    fetchMaterials();
+  const handleDeleteMaterial = async (id, title) => {
+    if (!window.confirm(`Delete "${title}"? This removes the file from Cloudinary too.`)) return;
+    setMatDeleteMsg("");
+    try {
+      const res = await fetch("/api/materials", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        console.error("Delete material failed:", data);
+        setMatDeleteMsg("❌ Couldn't delete: " + (data.error || res.status));
+        return;
+      }
+      fetchMaterials();
+    } catch (err) {
+      console.error("Delete material failed:", err);
+      setMatDeleteMsg("❌ Network error: " + err.message);
+    }
   };
 
   const applyMaterialFilters = (next) => {
     setMatFilters(next);
+    setSubjectFilter("");
     fetchMaterials(next);
   };
 
@@ -205,12 +238,25 @@ export default function AdminPage() {
   };
 
   const handleDeleteNotice = async (id) => {
-    await fetch("/api/notices", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id }),
-    });
-    fetchNotices();
+    if (!window.confirm("Delete this notice?")) return;
+    setNoticeDeleteMsg("");
+    try {
+      const res = await fetch("/api/notices", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        console.error("Delete notice failed:", data);
+        setNoticeDeleteMsg("❌ Couldn't delete: " + (data.error || res.status));
+        return;
+      }
+      fetchNotices();
+    } catch (err) {
+      console.error("Delete notice failed:", err);
+      setNoticeDeleteMsg("❌ Network error: " + err.message);
+    }
   };
 
   if (status === "loading" || status === "unauthenticated") {
@@ -340,7 +386,7 @@ export default function AdminPage() {
                   <span className="text-xs text-gray-400">{s.department}</span>
                   <span className="text-xs text-gray-400">{s.semester}</span>
                   <button
-                    onClick={() => handleDeleteSubject(s._id)}
+                    onClick={() => handleDeleteSubject(s._id, s.name)}
                     className="text-xs px-2 py-1 rounded text-red-400 bg-red-500/10 hover:bg-red-500/20"
                   >
                     Delete
@@ -348,6 +394,7 @@ export default function AdminPage() {
                 </div>
               ))}
             </div>
+            {subDeleteMsg && <p className="text-sm mt-3">{subDeleteMsg}</p>}
           </div>
         )}
 
@@ -421,7 +468,15 @@ export default function AdminPage() {
         )}
 
         {/* VIEW & DELETE MATERIALS */}
-        {activeTab === "view-materials" && (
+        {activeTab === "view-materials" && (() => {
+          const subjectOptions = materials
+            ? [...new Set(materials.map((m) => m.subject))].sort()
+            : [];
+          const displayedMaterials = materials
+            ? materials.filter((m) => !subjectFilter || m.subject === subjectFilter)
+            : null;
+
+          return (
           <div>
             <h1 className="text-xl font-bold text-white mb-1">Materials</h1>
             <p className="text-sm text-gray-500 mb-6">View and delete uploaded materials</p>
@@ -451,31 +506,53 @@ export default function AdminPage() {
                 <option value="">All types</option>
                 {TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
               </select>
+              {/* Subject filter — this is what keeps English/Maths/etc separate */}
+              <select
+                className="text-sm bg-gray-800 border border-yellow-500/40 rounded px-2 py-1.5 text-yellow-300"
+                value={subjectFilter}
+                onChange={(e) => setSubjectFilter(e.target.value)}
+                disabled={subjectOptions.length === 0}
+              >
+                <option value="">All subjects</option>
+                {subjectOptions.map((s) => <option key={s} value={s}>{s}</option>)}
+              </select>
             </div>
 
             <div className="border border-gray-800 rounded-xl overflow-hidden">
-              <div className="grid grid-cols-[1fr_70px_50px_80px_60px] gap-2 px-4 py-2 bg-gray-900 text-[11px] uppercase tracking-wide text-gray-500">
-                <span>Subject</span><span>Dept</span><span>Sem</span><span>Type</span><span></span>
+              <div className="grid grid-cols-[1fr_70px_50px_80px_50px_60px] gap-2 px-4 py-2 bg-gray-900 text-[11px] uppercase tracking-wide text-gray-500">
+                <span>Subject</span><span>Dept</span><span>Sem</span><span>Type</span><span></span><span></span>
               </div>
               {materials === null && <p className="px-4 py-4 text-sm text-gray-500">Loading…</p>}
-              {materials?.length === 0 && <p className="px-4 py-4 text-sm text-gray-500">No materials yet.</p>}
-              {materials?.map((m) => (
-                <div key={m._id} className="grid grid-cols-[1fr_70px_50px_80px_60px] gap-2 px-4 py-3 border-t border-gray-800 items-center">
+              {displayedMaterials?.length === 0 && <p className="px-4 py-4 text-sm text-gray-500">No materials match these filters.</p>}
+              {displayedMaterials?.map((m) => (
+                <div key={m._id} className="grid grid-cols-[1fr_70px_50px_80px_50px_60px] gap-2 px-4 py-3 border-t border-gray-800 items-center">
                   <span className="text-sm">{m.subject}</span>
                   <span className="text-xs text-gray-400">{m.department}</span>
                   <span className="text-xs text-gray-400">{m.semester}</span>
                   <span className={"text-[11px] px-2 py-0.5 rounded w-fit " + (TYPE_BADGE[m.type] || TYPE_BADGE.other)}>{m.type}</span>
+                  {m.driveViewLink ? (
+                    <a
+                      href={m.driveViewLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs px-2 py-1 rounded text-blue-400 bg-blue-500/10 hover:bg-blue-500/20 w-fit"
+                    >
+                      View
+                    </a>
+                  ) : <span />}
                   <button
-                    onClick={() => handleDeleteMaterial(m._id)}
-                    className="text-xs px-2 py-1 rounded text-red-400 bg-red-500/10 hover:bg-red-500/20"
+                    onClick={() => handleDeleteMaterial(m._id, m.title || m.subject)}
+                    className="text-xs px-2 py-1 rounded text-red-400 bg-red-500/10 hover:bg-red-500/20 w-fit"
                   >
                     Delete
                   </button>
                 </div>
               ))}
             </div>
+            {matDeleteMsg && <p className="text-sm mt-3">{matDeleteMsg}</p>}
           </div>
-        )}
+          );
+        })()}
 
         {/* ADD NOTICE */}
         {activeTab === "add-notice" && (
@@ -546,6 +623,7 @@ export default function AdminPage() {
                 </div>
               ))}
             </div>
+            {noticeDeleteMsg && <p className="text-sm mt-3">{noticeDeleteMsg}</p>}
           </div>
         )}
 
