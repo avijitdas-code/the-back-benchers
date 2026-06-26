@@ -89,7 +89,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Landing page
 
-![Landing page](<img width="1917" height="870" alt="Image" src="https://github.com/user-attachments/assets/92c8e723-b828-4b4c-8e58-24d65aa4b583" />)
+![Image alt](https://github.com/avijitdas-code/the-back-benchers/blob/12825f2c1792e5020965ada783f1d0f2de7ae990/homepage.png).
 
 
 ---
