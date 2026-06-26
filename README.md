@@ -89,7 +89,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## 📸 Screenshots
 
-'![Homepage](https://github.com/avijitdas-code/the-back-benchers/blob/c7c7ff169b0fde3020f0fb210ecb6600df869a94/Homepage%5D(public/screenshots/homepage.png)'
+
 ---
 
 ## 👨‍💻 Author
