@@ -91,7 +91,6 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ![Image alt](https://github.com/avijitdas-code/the-back-benchers/blob/12825f2c1792e5020965ada783f1d0f2de7ae990/homepage.png).
 
-## Admin page
 ![Image alt].(https://github.com/avijitdas-code/the-back-benchers/blob/5fd2d4de74443f6f0432f73b22b0ee0468f259d0/admin.png).
 
 ---
