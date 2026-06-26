@@ -93,6 +93,12 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
+## Admin page
+
+![Image alt](https://github.com/avijitdas-code/the-back-benchers/blob/3869033d92423c15767e370507bdc585f2f171f8/admin.png).
+
+---
+
 ## 👨‍💻 Author
 
 **Avijit Das** — Full-Stack Developer · MERN · Next.js
