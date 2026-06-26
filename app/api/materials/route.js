@@ -1,39 +1,52 @@
-import { NextResponse } from "next/server";
-import connectDB from "@/lib/db";
+import { connectDB } from "@/lib/dbConnect";
 import Material from "@/models/Material";
+import { deleteFromCloudinary } from "@/lib/cloudinary";
+import { NextResponse } from "next/server";
 
-export async function GET(req) {
+export async function GET(request) {
   try {
     await connectDB();
-
-    const { searchParams } = new URL(req.url);
-
+    const { searchParams } = new URL(request.url);
     const department = searchParams.get("department");
-    const semester = searchParams.get("semester");
-    const subject = searchParams.get("subject");
-    const resourceType = searchParams.get("resourceType");
+    const semester   = searchParams.get("semester");
+    const type       = searchParams.get("type");
+    const subject    = searchParams.get("subject");
 
-    const query = {};
+    const filter = {};
+    if (department) filter.department = department;
+    if (semester)   filter.semester   = Number(semester);
+    if (type)        filter.type      = type;
+    if (subject)      filter.subject  = subject;
 
-    if (department) query.department = department;
-    if (semester) query.semester = semester;
+    const materials = await Material.find(filter).sort({ uploadedAt: -1 });
+    return NextResponse.json(materials);
+  } catch (error) {
+    console.error("GET /api/materials error:", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
 
-    // ✅ FIX: Case-insensitive subject match
-    if (subject) {
-      query.subject = { $regex: `^${subject}$`, $options: "i" };
+export async function DELETE(request) {
+  try {
+    await connectDB();
+    const { id } = await request.json();
+
+    const material = await Material.findById(id);
+    if (!material) {
+      return NextResponse.json({ error: "Material not found" }, { status: 404 });
     }
 
-    if (resourceType) query.resourceType = resourceType;
+    try {
+      await deleteFromCloudinary(material.driveFileId);
+    } catch (cloudErr) {
+      // Don't let a Cloudinary hiccup block cleaning up the database record.
+      console.error("Cloudinary delete failed:", cloudErr);
+    }
 
-    const materials = await Material.find(query).sort({ createdAt: -1 });
-
-    return NextResponse.json({ success: true, materials });
-
+    await Material.findByIdAndDelete(id);
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error(error);
-    return NextResponse.json(
-      { success: false, message: "Server error" },
-      { status: 500 }
-    );
+    console.error("DELETE /api/materials error:", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
