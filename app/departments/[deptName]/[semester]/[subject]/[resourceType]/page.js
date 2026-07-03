@@ -10,7 +10,7 @@ export default function MaterialsList() {
   const [loading, setLoading]     = useState(true);
 
   const semNumber        = semester?.replace('semester-', '');
-  const formattedSubject = decodeURIComponent(subject || '');
+const formattedSubject = decodeURIComponent(subject || '').toLowerCase();
 
   useEffect(() => {
     const fetchMaterials = async () => {
